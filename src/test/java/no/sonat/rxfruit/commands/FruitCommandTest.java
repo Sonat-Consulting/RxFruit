@@ -12,7 +12,7 @@ public class FruitCommandTest {
 
     @Test
     public void testFruitCommand() {
-        FruitGetterCommand getTwoApplesCommand = new FruitGetterCommand("apple", 2);
+        FruitCommand getTwoApplesCommand = new FruitCommand("apple", 2);
 
         int counter = 0;
         for (String[] apples : getTwoApplesCommand.observe().toBlocking().toIterable()) {

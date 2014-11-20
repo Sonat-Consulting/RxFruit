@@ -1,6 +1,6 @@
 package no.sonat.rxfruit;
 
-import no.sonat.rxfruit.commands.FruitGetterCommand;
+import no.sonat.rxfruit.commands.FruitCommand;
 import rx.Observable;
 
 /**
@@ -10,11 +10,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Observable<String[]> getTwoApplesCommandObservable = new FruitGetterCommand("apple", 2).observe();
-        Observable<String[]> getOneBananaCommandObservable = new FruitGetterCommand("banana", 1).observe();
-        Observable<String[]> getOnePearCommandObservable = new FruitGetterCommand("pear", 3).observe();
-        Observable<String[]> getABowlCommandObservable = new FruitGetterCommand("bowl", 1).observe();
-        Observable<String[]> getASpoonCommandObservable = new FruitGetterCommand("spoon", 1).observe();
+        Observable<String[]> getTwoApplesCommandObservable = new FruitCommand("apple", 2).observe();
+        Observable<String[]> getOneBananaCommandObservable = new FruitCommand("banana", 1).observe();
+        Observable<String[]> getOnePearCommandObservable = new FruitCommand("pear", 3).observe();
+        Observable<String[]> getABowlCommandObservable = new FruitCommand("bowl", 1).observe();
+        Observable<String[]> getASpoonCommandObservable = new FruitCommand("spoon", 1).observe();
 
         Observable<String[]> mergedObservable = Observable.merge(
                 getTwoApplesCommandObservable,
