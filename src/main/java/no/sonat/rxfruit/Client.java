@@ -15,6 +15,14 @@ import java.util.List;
  */
 public class Client {
 
+    private int errorPercent = 0;
+
+    public Client withErrorPercent(int errorPercent) {
+        this.errorPercent = errorPercent;
+        return this;
+    }
+
+
     public String[] requestFruit(String itemName, int numberOfItems) {
 
         try {
@@ -31,7 +39,7 @@ public class Client {
                     .setHost("ec2-54-187-76-112.us-west-2.compute.amazonaws.com")
                     .setPort(9000)
                     .setPath(String.format("/fruit/%s/%s", itemName, numberOfItems))
-                    .setParameter("errorRateInPercent", "0").build();
+                    .setParameter("errorRateInPercent", Integer.toString(errorPercent)).build();
 
 
             String stringRes = Request.Get(uri)
