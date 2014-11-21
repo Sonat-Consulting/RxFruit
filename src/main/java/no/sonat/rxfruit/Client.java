@@ -6,6 +6,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -23,36 +24,23 @@ public class Client {
     }
 
 
-    public String[] requestFruit(String itemName, int numberOfItems) {
+    public String[] requestFruit(String itemName, int numberOfItems) throws URISyntaxException, IOException {
 
-        try {
-            URI uri = null;
-
-//            uri = new URIBuilder()
-//                    .setScheme("http")
-//                    .setHost("fruityfruit.azurewebsites.net")
-//                    .setPath(String.format("/fruit/%s/%s", itemName, numberOfItems))
-//                    .build();
-
-            uri = new URIBuilder()
-                    .setScheme("http")
-                    .setHost("ec2-54-187-76-112.us-west-2.compute.amazonaws.com")
-                    .setPort(9000)
-                    .setPath(String.format("/fruit/%s/%s", itemName, numberOfItems))
-                    .setParameter("errorRateInPercent", Integer.toString(errorPercent)).build();
+        URI uri = new URIBuilder()
+                .setScheme("http")
+                .setHost("ec2-54-187-76-112.us-west-2.compute.amazonaws.com")
+                .setPort(9000)
+                .setPath(String.format("/fruit/%s/%s", itemName, numberOfItems))
+                .setParameter("errorRateInPercent", Integer.toString(errorPercent)).build();
 
 
-            String stringRes = Request.Get(uri)
-                    .connectTimeout(5000)
-                    .socketTimeout(5000)
-                    .execute().returnContent().asString();
+        String stringRes = Request.Get(uri)
+                .connectTimeout(5000)
+                .socketTimeout(5000)
+                .execute().returnContent().asString();
 
-            String[] fruit = new ObjectMapper().readValue(stringRes, String[].class);
+        String[] fruit = new ObjectMapper().readValue(stringRes, String[].class);
 
-            return fruit;
-
-        } catch(Exception e) {
-            throw new RuntimeException("Dammit! Something went wrong", e);
-        }
+        return fruit;
     }
 }

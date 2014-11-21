@@ -31,7 +31,8 @@ public class Main {
 
     private static void onNext(List<Fruit> fruitNames) {
         if (fruitNames.get(0) instanceof Error) {
-            System.out.println( "[Error]" );
+            Error err = (Error) fruitNames.get(0);
+            System.out.println( String.format( "[%s - %s]", err.getException().getClass().getName(), err.getException().getMessage() ));
             return;
         }
         boolean plural = fruitNames.size() > 1;

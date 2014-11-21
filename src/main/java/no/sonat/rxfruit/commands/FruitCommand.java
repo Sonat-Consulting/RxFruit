@@ -41,7 +41,9 @@ public class FruitCommand extends HystrixCommand<List<Fruit>> {
     @Override
     protected List<Fruit> getFallback() {
         return new ArrayList<Fruit>(){{
-            add(new FruitError());
+            add(new FruitError(getFailedExecutionException()));
         }};
     }
+
+
 }

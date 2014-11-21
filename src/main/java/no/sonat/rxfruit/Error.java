@@ -5,4 +5,5 @@ package no.sonat.rxfruit;
  */
 public interface Error {
 
+    Throwable getException();
 }
