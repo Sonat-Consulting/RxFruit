@@ -1,6 +1,7 @@
 package no.sonat.rxfruit;
 
 import no.sonat.rxfruit.commands.FruitCommand;
+import no.sonat.rxfruit.commands.RetryFruitCommand;
 import rx.Observable;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class Main {
         Observable<List<Fruit>> getTwoApplesCommandObservable = new FruitCommand("apple", 2).observe();
         Observable<List<Fruit>> getOneBananaCommandObservable = new FruitCommand("banana", 1).observe();
         Observable<List<Fruit>> getOnePearCommandObservable = new FruitCommand("pear", 3).observe();
-        Observable<List<Fruit>> getABowlCommandObservable = new FruitCommand("bowl", 1).observe();
-        Observable<List<Fruit>> getASpoonCommandObservable = new FruitCommand("spoon", 1).observe();
+        Observable<List<Fruit>> getABowlCommandObservable = new RetryFruitCommand("bowl", 1).observe();
+        Observable<List<Fruit>> getASpoonCommandObservable = new RetryFruitCommand("spoon", 1).observe();
 
         Observable<List<Fruit>> mergedObservable = Observable.merge(
                 getTwoApplesCommandObservable,
