@@ -11,6 +11,7 @@ public class Cream extends BaseIngredient implements WipableIngredient {
     @Override
     public void wip() {
         try {
+            System.out.println("Wipping " + description());
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();

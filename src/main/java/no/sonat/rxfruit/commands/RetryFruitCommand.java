@@ -5,13 +5,14 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import no.sonat.rxfruit.*;
 import no.sonat.rxfruit.Error;
+import no.sonat.rxfruit.domain.FruitSaladEssential;
 
 import java.util.List;
 
 /**
  * Created by lars on 23.11.14.
  */
-public class RetryFruitCommand extends HystrixCommand<List<Fruit>> {
+public class RetryFruitCommand extends HystrixCommand<FruitSaladEssential> {
 
     public final String fruitName;
     public final int numberOfFruits;
@@ -25,7 +26,7 @@ public class RetryFruitCommand extends HystrixCommand<List<Fruit>> {
     }
 
     @Override
-    protected List<Fruit> run() throws Exception {
+    protected FruitSaladEssential run() throws Exception {
 
         Throwable lastException = null;
         int retryNumber;
@@ -37,15 +38,15 @@ public class RetryFruitCommand extends HystrixCommand<List<Fruit>> {
                 Thread.sleep(2000);
             }
 
-            List<Fruit> fruitList = new FruitCommand(fruitName, numberOfFruits).execute();
+            FruitSaladEssential fruitSaladEssential = new FruitCommand(fruitName, numberOfFruits).execute();
 
-            if (fruitList.get(0) instanceof no.sonat.rxfruit.Error) {
+            if (fruitSaladEssential instanceof Error) {
                 // keep error message and retry
-                lastException = ((Error) fruitList.get(0)).getException();
+                lastException = ((Error) fruitSaladEssential).getException();
                 System.out.println(String.format("RetryFruitCommand for fruitName=%s failes. Retrying in 2 seconds", fruitName));
             } else {
-                // everything is good, return result
-                return fruitList;
+                // everything is honky-donkey, return result.
+                return fruitSaladEssential;
             }
         }
 

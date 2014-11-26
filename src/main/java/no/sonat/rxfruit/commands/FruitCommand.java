@@ -1,13 +1,10 @@
 package no.sonat.rxfruit.commands;
 
-import com.google.common.collect.Lists;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandProperties;
 import no.sonat.rxfruit.Client;
-import no.sonat.rxfruit.Fruit;
-import no.sonat.rxfruit.FruitError;
+import no.sonat.rxfruit.domain.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +13,7 @@ import static com.netflix.hystrix.HystrixCommandGroupKey.Factory;
 /**
  * Created by lars on 20.11.14.
  */
-public class FruitCommand extends HystrixCommand<List<Fruit>> {
+public class FruitCommand extends HystrixCommand<FruitSaladEssential> {
 
     public final String fruitName;
     public final int numberOfFruits;
@@ -29,20 +26,33 @@ public class FruitCommand extends HystrixCommand<List<Fruit>> {
     }
 
     @Override
-    protected List<Fruit> run() throws Exception {
+    protected FruitSaladEssential run() throws Exception {
 
         List<String> fruitList = Arrays.asList( new Client()
                 .withErrorPercent(25)
                 .requestFruit(fruitName, numberOfFruits) );
+        String type = fruitList.get(0);
 
-        return Lists.transform(fruitList, Fruit::new);
+        switch(type) {
+            case "bowl":
+            case "spoon":
+            case "fat":
+            case "skje":
+                return new EssentialItem(type, "a " + type);
+            case "cream":
+            case "krem":
+            case "vanilla":
+                return new Cream(type, type, fruitList.size());
+            default:
+                return new Fruit(type, type, fruitList.size());
+        }
+
+
     }
 
     @Override
-    protected List<Fruit> getFallback() {
-        return new ArrayList<Fruit>(){{
-            add(new FruitError(getFailedExecutionException()));
-        }};
+    protected FruitSaladEssential getFallback() {
+        return new FruitSaladError(getFailedExecutionException());
     }
 
 

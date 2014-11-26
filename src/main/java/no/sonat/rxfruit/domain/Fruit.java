@@ -13,6 +13,7 @@ public class Fruit extends BaseIngredient implements CutableIngredient {
     @Override
     public void cut() {
         try {
+            System.out.println("Cutting " + description());
             Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();

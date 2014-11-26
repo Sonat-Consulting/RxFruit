@@ -1,9 +1,8 @@
 package no.sonat.rxfruit.commands;
 
-import no.sonat.rxfruit.Fruit;
+import no.sonat.rxfruit.domain.Fruit;
+import no.sonat.rxfruit.domain.FruitSaladEssential;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,13 +17,11 @@ public class FruitCommandTest {
         FruitCommand getTwoApplesCommand = new FruitCommand("apple", 2);
 
         int counter = 0;
-        for (List<Fruit> apples : getTwoApplesCommand.observe().toBlocking().toIterable()) {
-            for (Fruit apple : apples) {
-                counter++;
-                assertEquals("apple", apple.name);
-            }
-        }
+        FruitSaladEssential apples = getTwoApplesCommand.execute();
 
-        assertEquals(2, counter);
+        assertTrue(apples instanceof Fruit);
+
+
+        assertEquals(2, ((Fruit)apples).quantity());
     }
 }

@@ -16,11 +16,11 @@ public class BaseIngredient extends EssentialItem implements Ingredient {
 
     @Override
     public int quantity() {
-        return 0;
+        return quantity;
     }
 
     @Override
     public String unit() {
-        return null;
+        return unit;
     }
 }
